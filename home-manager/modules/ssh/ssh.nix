@@ -17,7 +17,7 @@
       controlPersist = "no";
       controlPath = "~/.ssh/master-%r@%n:%p";
 
-      userKnownHostsFile = "/media/${profile.userName}/noidea/.ssh/known_hosts";
+      userKnownHostsFile = "~/.ssh/known_hosts";
       identityFile = "/media/${profile.userName}/noidea/.ssh/id_ed25519";
       identitiesOnly = true;
     };
