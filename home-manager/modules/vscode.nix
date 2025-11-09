@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, profile, ... }:
 {
   programs.vscode = {
     enable = true;
@@ -7,23 +7,28 @@
       extensions =
         with pkgs.vscode-marketplace;
         [
-          beardedbear.beardedtheme
-        ]
-        ++ (with pkgs.vscode-extensions; [
           jnoortheen.nix-ide
 
           bradlc.vscode-tailwindcss
           dbaeumer.vscode-eslint
           esbenp.prettier-vscode
 
-          ms-python.python
-          ms-python.vscode-pylance
-
           rust-lang.rust-analyzer
-          vadimcn.vscode-lldb
 
           shd101wyy.markdown-preview-enhanced
           yzane.markdown-pdf
+          mathematic.vscode-pdf
+
+          beardedbear.beardedtheme
+
+          ms-python.python
+          ms-python.vscode-pylance
+
+          dart-code.dart-code
+          dart-code.flutter
+        ]
+        ++ (with pkgs.vscode-extensions; [
+          vadimcn.vscode-lldb
         ]);
 
       userSettings = {
@@ -33,10 +38,15 @@
           "strings" = "on";
         };
 
+        "terminal.integrated.cursorStyle" = "line";
+        "terminal.integrated.cursorBlinking" = true;
+
         "files.trimTrailingWhitespace" = true;
         "files.insertFinalNewline" = true;
 
-        "markdown-preview-enhanced.plantumlJarPath" = "$HOME/.local/share/plantuml/plantuml.jar";
+        "markdown-preview-enhanced.plantumlJarPath" =
+          "/home/${profile.userName}/.local/share/plantuml/plantuml.jar";
+        "markdown-preview-enhanced.breakOnSingleNewLine" = false;
         "[markdown]" = {
           "prettier.printWidth" = 80;
           "prettier.proseWrap" = "always";
@@ -50,6 +60,7 @@
           "editor.insertSpaces" = true;
         };
         "python.languageServer" = "Pylance";
+        "python.analysis.typeCheckingMode" = "strict";
 
         "rust-analyzer.check.command" = "clippy";
         "rust-analyzer.cargo.features" = "all";
@@ -84,11 +95,22 @@
         };
 
         "workbench.colorTheme" = "Bearded Theme feat. Mintshake D Raynh";
+        "workbench.secondarySideBar.defaultVisibility" = "hidden";
+
+        "[dart]" = {
+          "editor.formatOnSave" = true;
+          "editor.formatOnType" = true;
+          "editor.selectionHighlight" = false;
+          "editor.tabCompletion" = "onlySnippets";
+          "editor.wordBasedSuggestions" = "off";
+        };
       };
     };
   };
-  home.packages = with pkgs; [
-    nixd
-    nixfmt-rfc-style
-  ];
+
+  home.file.".local/share/applications/code.desktop".text =
+    builtins.replaceStrings
+      [ "Exec=code" "Icon=vscode" ]
+      [ "Exec=${pkgs.vscode}/bin/code" "Icon=${pkgs.vscode}/share/pixmaps/vscode.png" ]
+      (builtins.readFile "${pkgs.vscode}/share/applications/code.desktop");
 }

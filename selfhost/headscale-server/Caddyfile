@@ -1,0 +1,14 @@
+headscale.myownvoid.com {
+    @root {
+        path /
+    }
+    redir @root /web permanent
+
+    @ui path /web*
+    basicauth @ui {
+        admin $2a$14$PYUqxnKij725tpsOe.SHOOe5ec3KtqsGWUYzvA6NEE1RMP.zIvV6y
+    }
+
+    reverse_proxy /web* headscale-ui:8080
+    reverse_proxy headscale:8080
+}

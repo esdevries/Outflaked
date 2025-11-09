@@ -2,18 +2,12 @@
 {
   home.packages = with pkgs; [
     bat
-    dconf2nix
     devenv
+    direnv
     fastfetch
-    htop
-
-    brave
-    firefox
-    gimp
-    vlc
-
-    (callPackage ./modules/splashscreen.nix { })
-    materia-kde-theme
-    papirus-icon-theme
+    home-manager
+    nixd
+    nixfmt-rfc-style
+    openssh_gssapi
   ];
 }

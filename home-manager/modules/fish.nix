@@ -3,26 +3,12 @@
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
-      set fish_greeting
-      direnv hook fish | source
+      set -U fish_greeting
+      alias di='devenv init'
 
-      function devenv-init-no-gitignore
-        set gitignore_exists false
-        if test -f .gitignore
-          set gitignore_exists true
-          cp .gitignore .gitignore.bak
-        end
-
-        devenv init
-
-        if test "$gitignore_exists" = "true"
-          mv .gitignore.bak .gitignore
-        else
-          rm -f .gitignore
-        end
+      function pcu
+        ssh -p 5768 root@192.168.1.36
       end
-
-      alias di='devenv-init-no-gitignore'
     '';
     plugins = [
       {

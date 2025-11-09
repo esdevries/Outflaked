@@ -3,8 +3,8 @@
     ./direnv.nix
     ./fish.nix
     ./git.nix
-    ./kitty.nix
-    ./plasma.nix
+    ./nix.nix
+    ./ssh/ssh.nix
     ./vscode.nix
   ];
 }

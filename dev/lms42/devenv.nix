@@ -5,22 +5,17 @@
   name = "lms42-dev-shell";
 
   packages = with pkgs; [
-    python312Full
-    python312Packages.gevent
+    python313Full
+    python313Packages.gevent
+    python313Packages.pip
     poetry
-    python312Packages.pip
     nodejs
     nodePackages.npm
     postgresql_14
     glibcLocales
     gcc
+    gcc.cc.lib
   ];
-
-  env = {
-    LANG = "C";
-    LC_ALL = "C";
-    LOCALE_ARCHIVE = "${pkgs.glibcLocales}/lib/locale/locale-archive";
-  };
 
   enterShell = ''
     echo ""

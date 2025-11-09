@@ -1,12 +1,10 @@
 <div align="center">
 
-# Outflaked System Configuration
+# Outflaked Home-Manager Configuration
 
-### This repository contains my personal NixOS system configuration, designed exactly as I see fit.
+### This repository contains my home-manager configuration.
 
 </div>
-
-![](./home-manager/static/example.png)
 
 ---
 
@@ -14,12 +12,30 @@
 
 ### Getting Outflaked
 
-Install NixOS like you normally would, and clone the repo.
+Install any distro and later install the [nix](https://nixos.org/download/)
+package manager, then clone the repo.
 
 ```bash
-# Assuming this is the first time booting NixOS after installation and you don't have git.
-nix-shell -p git
 git clone https://github.com/esdevries/Outflaked.git && cd Outflaked
+```
+
+### Optional disabling of stupid snapd error when building home-manager
+
+```bash
+systemctl --user mask snap.prompting-client.daemon.service
+```
+
+### Fix apparmor in Ubuntu killing chrome-sandbox
+
+```bash
+sudo cp home-manager/conf/nix-vscode /etc/apparmor.d/nix-vscode
+sudo systemctl reload apparmor
+```
+
+### Editing nix package manager config
+
+```bash
+echo -e "\nexperimental-features = nix-command flakes\ntrusted-users = root YOUR_USERNAME" | sudo tee -a /etc/nix/nix.conf
 ```
 
 ### Edit personal details
@@ -35,14 +51,24 @@ profile = {
 };
 ```
 
-### Copy hardware configuration.nix
+### One time path update
 
 ```bash
-cp /etc/nixos/hardware-configuration.nix ./nixos/hardware/desktop.nix
+# Just in case nix isn't in your path yet
+export PATH="$HOME/.nix-profile/bin:/nix/var/nix/profiles/default/bin:$PATH"
 ```
 
 ### Install
 
 ```bash
+# Assuming you have the nix package manager
+nix-shell -p home-manager
 ./build.sh
+```
+
+### Change shell to fish
+
+```bash
+sudo sh -c 'echo /home/YOUR_USERNAME/.nix-profile/bin/fish >> /etc/shells'
+chsh -s $(which fish)
 ```
