@@ -1,0 +1,3 @@
+headscale.erwindv.com {
+    reverse_proxy headscale:8080
+}

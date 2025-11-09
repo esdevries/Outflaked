@@ -9,7 +9,15 @@
     username = profile.userName;
     homeDirectory = "/home/${profile.userName}";
     stateVersion = "24.11";
-    file.".face.icon".source = ./static/gigatux.png;
-    file.".wallpaper".source = ./static/wallpaper.jpg;
+
+    sessionVariables = {
+      EDITOR = "nano";
+    };
+
+    sessionPath = [
+      "$HOME/.local/bin"
+      "$HOME/.nix-profile/bin"
+      "/nix/var/nix/profiles/default/bin"
+    ];
   };
 }
